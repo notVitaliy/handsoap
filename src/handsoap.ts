@@ -1,15 +1,47 @@
-const request = require('request');
-const XML = require('simple-xml');
-const zlib = require('zlib');
- 
- 
-class HandSoap {
-  request(url, operation, action, body, options, auth) {
-    return new Promise((resolve, reject) => {
-      const xml = envelope(operation, body, options);
-      const httpHeaders = options.httpHeaders || {};
+/// <reference path="./simple-xml.d.ts" />
 
-      const requestOptions = {
+import * as request from 'request';
+import { XML } from 'simple-xml';
+import * as zlib from 'zlib';
+
+interface Options {
+  httpHeaders?: {
+    [key: string]: string;
+  };
+  soapHeaders?: {
+    [key: string]: string;
+  } | string;
+  namespaces?: {
+    [key: string]: string;
+  };
+  namespace?: string;
+};
+
+interface Auth {
+  user?: string;
+  username?: string;
+  pass?: string;
+  password?: string;
+  bearer?: string;
+
+  [key: string]: any;  
+}
+
+interface RequestOptions {
+  url: string;
+  body: string;
+  auth?: Auth;
+
+  [key: string]: any;
+}
+
+export class HandSoap {
+  request(url: string, operation: string, action: string, body: string | Object, options: Options, auth: Auth): Promise<Object> {
+    return new Promise((resolve, reject) => {
+      const xml: string = this.envelope(operation, body, options);
+      const httpHeaders: Object = options.httpHeaders || {};
+
+      const requestOptions: RequestOptions = {
         url,
         body: xml,
         headers: this.headers(action, xml.length, httpHeaders)
@@ -22,22 +54,27 @@ class HandSoap {
         }
       }
 
-      const req = request.post(requestOptions, (err, response, body) => {
+      request.post(requestOptions, (err: any, response: any, body: string): void => {
         if (err || response.statusCode !== 200) {
-          const error = err ?
+          const error: string = err ?
             err :
             `Http Status code: ${response.statusCode}`;
 
           reject(error);
-          return; 
         }
 
-        resolve(XML.parse(body));
+        if (this.isGzipped(response)){
+          this.gunzip(reject);
+        }
+        else {
+          resolve(XML.parse(body));
+        }
+
       });
     })
   }
 
-  envelope(operation, body, options) {
+  envelope(operation: string, body: string | Object, options: Options): string {
     let xml = '<?xml version="1.0" encoding="UTF-8"?>';
     xml += '<env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +
       'xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" ' + this.namespaces(options.namespaces) + '>';
@@ -58,14 +95,14 @@ class HandSoap {
     return xml;
   }
 
-  headers(action, length, httpHeaders) {
-    let headers = {
+  headers(action: string, length: number, httpHeaders: Object): Object {
+    let headers: Object = {
       Soapaction: action,
       'Content-Type': 'text/xml;charset=UTF-8',
       'Content-Length': length,
       'Accept-Encoding': 'gzip',
       Accept: '*/*'
-    }
+    };
 
     for (let i in httpHeaders) {
       headers[i] = httpHeaders[i];
@@ -74,27 +111,25 @@ class HandSoap {
     return headers;
   }
 
-  namespaces(ns) {
+  namespaces(namespaces: Object): string {
     let attributes = '';
-    for (let name in ns) {
-      attributes += name + '="' + ns[name] + '" ';
+    for (let name in namespaces) {
+      attributes += name + '="' + namespaces[name] + '" ';
     }
     return attributes.trim();
   }
 
-  serializeOperation(operation, options) {
+  serializeOperation(operation: string, options: Options): string {
     return '<' + operation + (options.namespace ? ' xmlns="' + options.namespace + '"' : '') + '>';
   }
 
-  gunzip(callback) {
+  gunzip(callback: Function): any {
     let gunzip = zlib.createGunzip();
     gunzip.on('error', callback);
     return gunzip;
   }
 
-  isGzipped(response) {
+  isGzipped(response): boolean {
     return /gzip/.test(response.headers['content-encoding']);
   }
 }
-
-module.exports = new HandSoap;

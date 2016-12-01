@@ -1,0 +1,1 @@
+import { handsoap } from '../handsoap';
