@@ -1,6 +1,6 @@
 {
   "name": "handsoap",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A (really) simple soap client",
   "main": "handsoap.js",
   "scripts": {

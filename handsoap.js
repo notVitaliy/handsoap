@@ -6,7 +6,7 @@ const zlib = require('zlib');
 class HandSoap {
   request(url, operation, action, body, options, auth) {
     return new Promise((resolve, reject) => {
-      const xml = envelope(operation, body, options);
+      const xml = this.envelope(operation, body, options);
       const httpHeaders = options.httpHeaders || {};
 
       const requestOptions = {
