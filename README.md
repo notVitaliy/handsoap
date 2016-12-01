@@ -51,14 +51,34 @@ HandSoapWrapper.prototype._wrapRequest = function(operation, action, body) {
 }
 
 HandSoapWrapper.prototype.myOperation = function(body) {
-  const operation = 'MyOper';
+  const operation = 'ns1:MyOper';
   const action = 'MyAction';
   return this._wrapRequest(operation, action, body);
 }
 
 
 // usage
-const handSoapWrapper = new HandSoapWrapper()
+const url = 'MY URL';
+
+const options = {
+  httpHeaders: {
+    http: 'Header'
+  },
+  soapHeaders: {
+    soap: 'Header'
+  },
+  namespaces: [
+    'MyNameSpace': 'My.Name.Space',
+    'MyNameSpace2': 'My.Name.Space.2'
+  ]
+};
+
+const auth = {
+  user: 'user',
+  pass: 'pass'
+};
+
+const handSoapWrapper = new HandSoapWrapper(url, options, auth);
 
 handSoapWrapper.myOperation(body).then((response) => {
   // Success
