@@ -25,7 +25,7 @@ const options = {
   ]
 }
 
-handsoap(url, operation, action, body, options, auth).then((response) => {
+handsoap.request(url, operation, action, body, options, auth).then((response) => {
   // Success
 }, (err) => {
   // Error
@@ -47,7 +47,7 @@ HandSoapWrapper = function(url, options, auth) {
 };
 
 HandSoapWrapper.prototype._wrapRequest = function(operation, action, body) {
-  return handsoap(this.url, operation, action, body, this.options, this.auth);
+  return handsoap.request(this.url, operation, action, body, this.options, this.auth);
 }
 
 HandSoapWrapper.prototype.myOperation = function(body) {
