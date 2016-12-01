@@ -19,7 +19,7 @@ const options = {
   soapHeaders: {
     soap: 'Header'
   },
-  namespace: 'MyNamespace
+  namespace: 'MyNamespace'
 }
 
 handsoap(url, operation, action, body, options, auth).then((response) => {
