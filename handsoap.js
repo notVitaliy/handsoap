@@ -38,7 +38,7 @@ class HandSoap {
   }
 
   envelope(operation, body, options) {
-    var xml = '<?xml version="1.0" encoding="UTF-8"?>';
+    let xml = '<?xml version="1.0" encoding="UTF-8"?>';
     xml += '<env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +
       'xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" ' + this.namespaces(options.namespaces) + '>';
 
@@ -75,8 +75,8 @@ class HandSoap {
   }
 
   namespaces(ns) {
-    var attributes = '';
-    for (var name in ns) {
+    let attributes = '';
+    for (let name in ns) {
       attributes += name + '="' + ns[name] + '" ';
     }
     return attributes.trim();
@@ -87,7 +87,7 @@ class HandSoap {
   }
 
   gunzip(callback) {
-    var gunzip = zlib.createGunzip();
+    let gunzip = zlib.createGunzip();
     gunzip.on('error', callback);
     return gunzip;
   }
