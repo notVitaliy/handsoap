@@ -1,0 +1,23 @@
+{
+  "name": "handsoap",
+  "version": "0.0.2",
+  "description": "A (really) simple soap client",
+  "main": "handsoap.js",
+  "scripts": {
+    "test": "echo 'No tests.' && exit 1"
+  },
+  "keywords": [
+    "soap",
+    "xml"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/notVitaliy/handsoap"
+  },
+  "author": "Vitaliy Isikov",
+  "license": "MIT",
+  "dependencies": {
+    "request": "2.79.0",
+    "simple-xml": "0.0.10"
+  }
+}
