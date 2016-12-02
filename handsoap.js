@@ -26,10 +26,12 @@ class HandSoap {
         if (err || response.statusCode !== 200) {
           const error = err ?
             err :
-            `Http Status code: ${response.statusCode}`;
+            `Http Status code: ${response.statusCode}
+Response: ${JSON.stringify(response)}
+Body: ` + body;
 
           reject(error);
-          return; 
+          return;
         }
 
         resolve(XML.parse(body));
@@ -60,10 +62,10 @@ class HandSoap {
 
   headers(action, length, httpHeaders) {
     let headers = {
-      Soapaction: action,
+      SOAPAction: action,
       'Content-Type': 'text/xml;charset=UTF-8',
       'Content-Length': length,
-      'Accept-Encoding': 'gzip',
+      // 'Accept-Encoding': 'gzip',
       Accept: '*/*'
     }
 
@@ -77,7 +79,7 @@ class HandSoap {
   namespaces(ns) {
     let attributes = '';
     for (let name in ns) {
-      attributes += name + '="' + ns[name] + '" ';
+      attributes += 'xmlns:' + name + '="' + ns[name] + '" ';
     }
     return attributes.trim();
   }
