@@ -26,10 +26,15 @@ class HandSoap {
         if (err || response.statusCode !== 200) {
           const error = err ?
             err :
-            `Http Status code: ${response.statusCode}
-Response: ${JSON.stringify(response)}
-Body: ` + body;
-
+              // RED
+              '\033[0;31m' + `
+              ERROR
+              =================
+              Http Status code: ${response.statusCode}
+              =================
+              Response: ${JSON.stringify(response)}
+              =================
+              Body: ${body}` + '\033[0m';
           reject(error);
           return;
         }
