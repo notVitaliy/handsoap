@@ -2,9 +2,9 @@
   "name": "handsoap",
   "version": "0.0.8",
   "description": "A (really) simple soap client",
-  "main": "handsoap.js",
+  "main": "./lib/handsoap.js",
   "scripts": {
-    "test": "echo 'No tests.' && exit 1"
+    "test": "jasmine ./tests/handsoap.spec.js"
   },
   "keywords": [
     "soap",
@@ -17,6 +17,7 @@
   "author": "Vitaliy Isikov",
   "license": "MIT",
   "dependencies": {
+    "chalk": "^1.1.3",
     "request": "2.79.0",
     "simple-xml": "0.0.10"
   }
