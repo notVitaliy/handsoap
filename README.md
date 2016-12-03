@@ -1,5 +1,7 @@
 # handsoap
 
+A (really) simple SOAP library. It does not depend on a WSDL. All namespaces, operations, actions and headers are 100% within your control.
+
 ## Basic Usage
 
 ```javascript
@@ -37,7 +39,7 @@ handsoap.request(url, operation, action, body, options, auth).then((response) =>
 
 
 ```javascript
-// definition
+// definition ES5
 const handsoap = require('handsoap');
 
 HandSoapWrapper = function(url, options, auth) {
@@ -54,6 +56,26 @@ HandSoapWrapper.prototype.myOperation = function(body) {
   const operation = 'ns1:MyOper';
   const action = 'MyAction';
   return this._wrapRequest(operation, action, body);
+}
+
+
+// definition ES6
+class HandSoapWrapper {
+  constructor(url, options, auth) {
+    this.url = url;
+    this.options = options;
+    this.auth = auth;
+  }
+
+  _wrapRequest(operation, action, body) {
+    return handsoap.request(this.url, operation, action, body, this.options, this.auth);
+  }
+
+  myOperation(body) {
+    const operation = 'ns1:MyOper';
+    const action = 'MyAction';
+    return this._wrapRequest(operation, action, body);
+  }
 }
 
 
@@ -86,3 +108,8 @@ handSoapWrapper.myOperation(body).then((response) => {
   // Error
 });
 ```
+
+## @todo
+
+* remove dependency on simple-xml (libxmljs)
+* remove dependency on request
