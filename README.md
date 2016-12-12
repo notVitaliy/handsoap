@@ -111,5 +111,4 @@ handSoapWrapper.myOperation(body).then((response) => {
 
 ## @todo
 
-* remove dependency on simple-xml (libxmljs)
 * remove dependency on request
