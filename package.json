@@ -17,8 +17,8 @@
   "author": "Vitaliy Isikov",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.17.1",
     "chalk": "^1.1.3",
-    "request": "2.79.0",
     "xml2js": "0.4.17"
   },
   "devDependencies": {
