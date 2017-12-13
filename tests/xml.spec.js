@@ -4,7 +4,7 @@ describe('XML', () => {
   const xmlString = '<root><child>test</child></root>';
   const xmlObj = {
     root: {
-      child: ['test']
+      child: 'test'
     }
   };
 
