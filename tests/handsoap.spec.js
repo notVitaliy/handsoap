@@ -13,7 +13,6 @@ describe('HandSoap', () => {
     const expected = {
       SOAPAction: 'test',
       'Content-Type': 'text/xml;charset=UTF-8',
-      'Content-Length': 4,
       Accept: '*/*'
     };
 
